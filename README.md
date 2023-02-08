@@ -1,6 +1,6 @@
 # Face Recog App Server
 
-Server for [Face Recog App Client](https://fra-client.herokuapp.com/)
+Server for [Face Recog App Client](https://terencechew.github.io/face-recog-app-client/)
 
 This app is built to practice the use of Node & Express
 
