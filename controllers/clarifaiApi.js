@@ -1,10 +1,10 @@
-const fetch = require('node-fetch');
+const fetch = require("node-fetch");
 
-const USER_ID = 'terence_cws';
+const USER_ID = "terence_cws";
 // Your PAT (Personal Access Token) can be found in the portal under Authentification
-const PAT = '9b51f08bc006480fb57c47e1410966fb';
-const APP_ID = 'fra';
-const MODEL_ID = 'face-detection';
+const PAT = process.env.PAT;
+const APP_ID = "fra";
+const MODEL_ID = "face-detection";
 
 const makeApiCall = async (req, res) => {
   const { imageLink } = req.body;
@@ -15,42 +15,45 @@ const makeApiCall = async (req, res) => {
   // YOU DO NOT NEED TO CHANGE ANYTHING BELOW THIS LINE TO RUN THIS EXAMPLE
   ///////////////////////////////////////////////////////////////////////////////////
   const raw = JSON.stringify({
-    "user_app_id": {
-      "user_id": USER_ID,
-      "app_id": APP_ID
+    user_app_id: {
+      user_id: USER_ID,
+      app_id: APP_ID,
     },
-    "inputs": [
+    inputs: [
       {
-        "data": {
-          "image": {
-            "url": IMAGE_URL
-          }
-        }
-      }
-    ]
+        data: {
+          image: {
+            url: IMAGE_URL,
+          },
+        },
+      },
+    ],
   });
 
   const requestOptions = {
-    method: 'POST',
+    method: "POST",
     headers: {
-        'Accept': 'application/json',
-        'Authorization': 'Key ' + PAT
+      Accept: "application/json",
+      Authorization: "Key " + PAT,
     },
-    body: raw
+    body: raw,
   };
 
   try {
-    const clarifaiResponse = await fetch("https://api.clarifai.com/v2/models/" + MODEL_ID + "/outputs", requestOptions);
+    const clarifaiResponse = await fetch(
+      "https://api.clarifai.com/v2/models/" + MODEL_ID + "/outputs",
+      requestOptions
+    );
     const clarifaiData = await clarifaiResponse.json();
     const facePositionArray = clarifaiData.outputs[0].data.regions;
     // console.log(data.outputs[0].data.regions)
-    res.json(facePositionArray)
+    res.json(facePositionArray);
   } catch (err) {
     console.log(err);
-    res.status(400).json('Could not connect to Clarifai')
+    res.status(400).json("Could not connect to Clarifai");
   }
-}
+};
 
 module.exports = {
-  makeApiCall
+  makeApiCall,
 };
