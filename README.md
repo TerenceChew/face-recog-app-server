@@ -2,7 +2,7 @@
 
 Server for [Face Recog App Client](https://terencechew.github.io/face-recog-app-client/)
 
-This app is built to practice the use of Node & Express
+This app is built to practice the use of Node.js, Express and PostgreSQL
 
 ## To clone the app:
 
