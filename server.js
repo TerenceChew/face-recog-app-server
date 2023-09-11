@@ -10,6 +10,22 @@ const register = require("./controllers/register");
 const imageSubmit = require("./controllers/imageSubmit");
 
 const app = express();
+
+// Set up port
+let port = process.env.PORT;
+
+if (port == null || port == "") {
+  port = 3000;
+}
+app.listen(port, err => {
+  if (err) {
+    console.log(err);
+  } else {
+    console.log(`Listening to port: ${port}`);
+  }
+});
+
+// Set up database
 const db = knex({
   client: "pg",
   connection: {
@@ -20,7 +36,7 @@ const db = knex({
   },
 });
 
-// Middleware
+// Middlewares
 app.use(express.json());
 app.use(cors());
 
@@ -29,30 +45,11 @@ app.get("/", (req, res) => {
   res.json("GET success");
 });
 
-// Endpoints listed as below
-
-// /signIn
+// Endpoints
 app.post("/signIn", signIn.handleSignIn(bcrypt, db));
 
-// /register
 app.post("/register", register.handleRegister(bcrypt, db));
 
-// /clarifaiApi
 app.post("/clarifaiApi", clarifaiApi.makeApiCall);
 
-// /imageSubmit
 app.put("/imageSubmit", imageSubmit.handleImageSubmit(db));
-
-// Port setups
-let port = process.env.PORT;
-
-if (port == null || port == "") {
-  port = 3000;
-}
-app.listen(port, (err) => {
-  if (err) {
-    console.log(err);
-  } else {
-    console.log(`Listening to port: ${port}`);
-  }
-});

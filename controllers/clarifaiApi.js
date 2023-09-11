@@ -46,7 +46,6 @@ const makeApiCall = async (req, res) => {
     );
     const clarifaiData = await clarifaiResponse.json();
     const facePositionArray = clarifaiData.outputs[0].data.regions;
-    // console.log(data.outputs[0].data.regions)
     res.json(facePositionArray);
   } catch (err) {
     console.log(err);
